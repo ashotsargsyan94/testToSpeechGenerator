@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     })
 
-    $(document).on('change', '#voice_type', function () {
+    $(document).on('change', '#type', function () {
         let nameSelect = $('#name');
         let localeSelect = $('#locale');
         let that = $(this);
@@ -61,16 +61,15 @@ $(document).ready(function () {
         })
         event.preventDefault()
         $.ajax({
-            type: "POST",
-            url: "/getVoice",
+            type: 'POST',
+            url: '/getVoice',
             data: JSON.stringify(data),
-            contentType: "application/json",
+            contentType: 'application/json',
             dataType: 'json',
             success: function(data) {
                 let audio = document.getElementById('audio');
                 let source = document.getElementById('audioSource');
                 source.src =  '/generated/' + data.filename;
-
                 audio.load();
                 audio.play()
                 $('.audioBlock').removeClass('loading')

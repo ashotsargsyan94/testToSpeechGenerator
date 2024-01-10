@@ -1,5 +1,4 @@
 const textToSpeech = require('@google-cloud/text-to-speech');
-require('dotenv').config()
 const path = require("path");
 const util = require('util')
 const fs = require('fs')
@@ -56,7 +55,7 @@ module.exports = {
      */
     getData:async (req, res) => {
         const client = new textToSpeech.TextToSpeechClient();
-
+        console.log(req.body)
         const request = {
             input: {text: req.body.text,},
             voice: {

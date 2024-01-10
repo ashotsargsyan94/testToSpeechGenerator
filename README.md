@@ -38,6 +38,8 @@ and you will need to create file ```.env``` with content of ```.env.example``` f
 
 `GOOGLE_APPLICATION_CREDENTIALS`=YOUR_GOOGLE_CONSOLE_CREDENTIALS.JSON
 
+`PORT`=3000
+
 Start the server
 
 ```bash

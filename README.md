@@ -29,7 +29,7 @@ Install dependencies
   npm install
 ```
 ```bash
-  npx tailwindcss -i ./src/input.css -o ./src/main.css --watch
+  npx tailwindcss -i ./src/input.css -o ./src/main.css
 ```
 ## Environment Variables
 

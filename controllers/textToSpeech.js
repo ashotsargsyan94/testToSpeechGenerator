@@ -55,7 +55,6 @@ module.exports = {
      */
     getData:async (req, res) => {
         const client = new textToSpeech.TextToSpeechClient();
-        console.log(req.body)
         const request = {
             input: {text: req.body.text,},
             voice: {
@@ -73,11 +72,14 @@ module.exports = {
 
         fs.readdir(directory, (err, files) => {
             if (err) throw err;
-
             for (const file of files) {
-                fs.unlink(path.join(directory, file), (err) => {
-                    if (err) throw err;
-                });
+                if (file.endsWith('.mp3')) {
+                    fs.unlink(path.join(directory, file), (err) => {
+                        if (err) {
+                            console.error('Failed to remove ${file}: ${err}');
+                        }
+                    });
+                }
             }
         });
 

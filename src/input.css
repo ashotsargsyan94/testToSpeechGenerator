@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.audioBlock .loader {
+    display: none;
+}
+
+.audioBlock.loading #audio {
+    display: none;
+}
+
+.audioBlock.loading .loader {
+    display: block;
+    margin: 0 auto;
+}
+
+.bg-transparent-blue {
+    background-color: #4a85ffbf;
+}
+.h-100 {
+    min-height: 100vh;
+}
+

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech</title>
+    <link rel="icon" href="/src/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/src/main.css">
+    <script src="src/js/jquery.min.js"></script>
+    <script src="src/js/main.js"></script>
+    <title>Title</title>
+</head>
+<body class="h-100 flex flex-col">
+
+<div class="w-full flex-1">
+    <div class="relative h-100 flex flex-col items-center justify-center">
+        <form id="voiceGeneratorForm">
+            <div class="space-y-12">
+                <div class="border-b border-gray-900/10 pb-12">
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">Voice generator</h2>
+                    <p class="mt-1 text-sm leading-6 text-gray-600">This is voice generator with your config.</p>
+
+                    <div class="col-span-12">
+                        <label for="message" class="block text-sm font-medium leading-6 text-gray-900">Write the text,
+                            which you want to play</label>
+                        <textarea id="message"
+                                  required
+                                  name="text"
+                                  rows="3"
+                                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                  placeholder="Type here..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-b border-gray-900/10 pb-12">
+                <h2 class="text-base font-semibold leading-7 text-gray-900">Voice configs</h2>
+                <p class="mt-1 text-sm leading-6 text-gray-600">Use options for generating most natural sound</p>
+                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    <div class="sm:col-span-3">
+                        <label for="locale" class="block text-sm font-medium leading-6 text-gray-900">
+                            Choose Language and Locale </label>
+                        <select id="locale" required name="locale"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <option value="">Select Language and Locale</option>
+                            <% for(option in options) { %>
+                                <option value="<%= option %>"><%= options[option].name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-3">
+                        <label for="type" class="block text-sm font-medium leading-6 text-gray-900">
+                            Choose Voice Type</label>
+                        <select id="type" required name="type"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <option value="">Select Voice Type</option>
+                            <% types.forEach(function (type) { %>
+                                <option value="<%= type %>"><%= type %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-3">
+                        <label for="device_profile" class="block text-sm font-medium leading-6 text-gray-900">
+                            Choose Audio Device Profile </label>
+                        <select id="device_profile" required name="device_profile"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <option value="wearable-class-device" selected>Smart watch or wearable</option>
+                            <option value="handset-class-device">Smartphone</option>
+                            <option value="headphone-class-device">Headphones or earbuds</option>
+                            <option value="small-bluetooth-speaker-class-device">Small home speaker</option>
+                            <option value="medium-bluetooth-speaker-class-device">Smart home speaker</option>
+                            <option value="large-home-entertainment-class-device">Home entertainment system or smart
+                                TV
+                            </option>
+                            <option value="large-automotive-class-device">Car Speaker</option>
+                            <option value="telephony-class-application">Interactive voice Response (IVR) system</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-3">
+                        <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Choose Voice Name</label>
+                        <select id="name" required name="name"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            <option value="">Choose Voice Name</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-3">
+                        <label for="pitch" class="block text-sm font-medium leading-6 text-gray-900">Pitch (
+                            <span class="font-bold pitchRange"> 0 </span> )</label>
+                        <input id="pitch" name="pitch" required type="range" min="-20" max="20" value="0" step="0.01"
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                    <div class="sm:col-span-3">
+                        <label for="speed" class="block text-sm font-medium leading-6 text-gray-900">Speed (
+                            <span class="font-bold speedRange"> 1 </span> )</label>
+                        <input id="speed" name="speed" required type="range" min="0.25" max="4" value="1" step="0.01"
+                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                </div>
+            </div>
+            <div class="audioBlock flex justify-center mt-5 hidden">
+                <svg class="loader" width="50px" height="50px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                    <g transform="rotate(0 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s"
+                                     begin="-0.9166666666666666s" repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(30 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s"
+                                     begin="-0.8333333333333334s" repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(60 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.75s"
+                                     repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(90 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s"
+                                     begin="-0.6666666666666666s" repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(120 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s"
+                                     begin="-0.5833333333333334s" repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(150 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5s"
+                                     repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(180 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s"
+                                     begin="-0.4166666666666667s" repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(210 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s"
+                                     begin="-0.3333333333333333s" repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(240 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.25s"
+                                     repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(270 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s"
+                                     begin="-0.16666666666666666s" repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(300 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s"
+                                     begin="-0.08333333333333333s" repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                    <g transform="rotate(330 50 50)">
+                        <rect x="47" y="24" rx="1.8" ry="1.8" width="6" height="12" fill="#9e9e9e">
+                            <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0s"
+                                     repeatCount="indefinite"></animate>
+                        </rect>
+                    </g>
+                </svg>
+
+                <audio id="audio" controls class="w-120p mb-10">
+                    <source id="audioSource" src="">
+                </audio>
+            </div>
+            <div class="mt-6 flex items-center justify-end gap-x-6">
+                <button type="submit"
+                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    Generate Voice
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<script type="text/javascript">
+    window.optionsData = "<%= JSON.stringify(options) %>"
+    window.optionsData = JSON.parse(optionsData.replaceAll('&#34;', '"'))
+</script>
+</body>
+</html>
